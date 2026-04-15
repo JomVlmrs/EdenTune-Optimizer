@@ -85,13 +85,19 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-white tracking-tight">Eden Optimized Tune</h3>
-                                <p class="text-xs text-emerald-300/70 font-medium" id="aiStatus">Optimizing settings based on your device profile.</p>
+                                <p class="text-xs text-emerald-300/70 font-medium" id="aiStatus">Choose a preset to optimize or push for extra performance.</p>
                             </div>
                         </div>
-                        <button id="aiAnalyzeBtn" class="group relative px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center gap-3 overflow-hidden">
-                            <span class="relative z-10">Apply Recommended Tune</span>
-                            <i class="fas fa-rocket relative z-10 text-white group-hover:translate-x-1 transition-transform"></i>
-                        </button>
+                        <div class="flex w-full md:w-auto flex-col sm:flex-row gap-3">
+                            <button id="optimizeBtn" class="group relative px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center justify-center gap-3 overflow-hidden">
+                                <span class="relative z-10">Optimize</span>
+                                <i class="fas fa-sliders relative z-10 text-white group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                            <button id="boostPerformanceBtn" class="group relative px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center justify-center gap-3 overflow-hidden">
+                                <span class="relative z-10">Boost Performance</span>
+                                <i class="fas fa-rocket relative z-10 text-white group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
                     </div>
                     <div id="aiResults" class="hidden mt-6 pt-6 border-t border-emerald-500/20 animate-fade-in">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="aiChips"></div>
@@ -151,32 +157,32 @@
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Limit Speed</div>
                                 <select id="limitSpeed" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                    <option value="true" selected>On</option><option value="false">Off</option>
                                 </select>
                             </div>
-                            <div class="p-4 space-y-3">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Speed Limit (Base)</span> <span id="val_perfLimit">100%</span></div>
+                            <div id="perfLimitRow" class="p-4 space-y-3 transition-opacity">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Limit Speed (Enable)</span> <span id="val_perfLimit">100%</span></div>
                                 <input type="range" id="perfLimit" min="1" max="400" value="100" class="w-full" oninput="document.getElementById('val_perfLimit').innerText=this.value+'%'">
                             </div>
-                            <div class="p-4 space-y-3">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Turbo Speed</span> <span id="val_turboLimit">200%</span></div>
+                            <div id="turboLimitRow" class="p-4 space-y-3 transition-opacity">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Turbo Speed (Enable)</span> <span id="val_turboLimit">200%</span></div>
                                 <input type="range" id="turboLimit" min="1" max="400" value="200" class="w-full" oninput="document.getElementById('val_turboLimit').innerText=this.value+'%'">
                             </div>
-                            <div class="p-4 space-y-3">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Slow Speed</span> <span id="val_slowLimit">50%</span></div>
+                            <div id="slowLimitRow" class="p-4 space-y-3 transition-opacity">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Slow Speed (Enable)</span> <span id="val_slowLimit">50%</span></div>
                                 <input type="range" id="slowLimit" min="1" max="400" value="50" class="w-full" oninput="document.getElementById('val_slowLimit').innerText=this.value+'%'">
                             </div>
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Docked Mode</div>
                                 <select id="dockedMode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Off (Handheld)</option><option value="1">On (Docked)</option>
+                                    <option value="0">Off</option><option value="1">On</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPU & Memory</div>
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPU</div>
                         <div class="divide-y divide-gray-800">
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">CPU Overclock</div>
@@ -214,7 +220,7 @@
                         <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">General</div>
                         <div class="divide-y divide-gray-800">
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Resolution</div>
+                                <div class="text-sm font-semibold text-gray-100">Resolution (Handheld/Docked)</div>
                                 <select id="resolution" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
                                     <option value="0">0.25x</option><option value="1">0.5x</option><option value="2">0.75x</option>
                                     <option value="3" selected>1x</option><option value="4">1.25x</option><option value="5">1.5x</option>
@@ -230,21 +236,21 @@
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Window Adapting Filter</div>
                                 <select id="filter" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Bilinear</option><option value="1">Bicubic</option><option value="2">Gaussian</option><option value="3">Lanczos</option><option value="4">ScaleForce</option><option value="5" selected>AMD FSR</option><option value="6">Area</option><option value="7">MMPX</option>
+                                    <option value="1">Bilinear</option><option value="2">Bicubic</option><option value="7">Gaussian</option><option value="8">Lanczos</option><option value="9">ScaleForce</option><option value="10" selected>AMD Fidelity™ Super Resolution</option><option value="11">Area</option><option value="12">MMPX</option><option value="3">Zero-Tangent</option><option value="4">B-Spline</option><option value="5">Mitchell</option><option value="6">Spline-1</option>
                                 </select>
                             </div>
-                            <div class="p-4 space-y-3">
+                            <div id="fsrSharpRow" class="p-4 space-y-3 transition-opacity">
                                 <div class="flex justify-between text-xs font-semibold text-gray-400"><span>FSR Sharpness</span> <span id="val_fsrSharp">88%</span></div>
-                                <input type="range" id="fsrSharp" min="1" max="100" value="88" class="w-full" oninput="document.getElementById('val_fsrSharp').innerText=this.value+'%'">
+                                <input type="range" id="fsrSharp" min="0" max="100" value="88" class="w-full" oninput="document.getElementById('val_fsrSharp').innerText=this.value+'%'">
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Anti-aliasing</div>
+                                <div class="text-sm font-semibold text-gray-100">Anti-aliasing Method</div>
                                 <select id="aa" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
                                     <option value="0" selected>None</option><option value="1">FXAA</option><option value="2">SMAA</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Optimize Spir-V</div>
+                                <div class="text-sm font-semibold text-gray-100">Optimize Spir-V Output</div>
                                 <select id="spirv" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
                                     <option value="0">Never</option><option value="1" selected>On Load</option><option value="2">Always</option>
                                 </select>
@@ -253,7 +259,7 @@
                     </div>
 
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Advanced Pipeline</div>
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Advanced</div>
                         <div class="divide-y divide-gray-800">
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">GPU Mode</div>
@@ -268,33 +274,69 @@
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Frame Pacing</div>
-                                <select id="framePacing" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Auto</option><option value="30">30 FPS</option><option value="60" selected>60 FPS</option><option value="90">90 FPS</option><option value="120">120 FPS</option>
-                                </select>
-                            </div>
-                            <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Anisotropic Filtering</div>
                                 <select id="af" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0" selected>Auto</option><option value="1">Default</option><option value="2">2x</option><option value="4">4x</option><option value="8">8x</option><option value="16">16x</option>
+                                    <option value="auto" selected>Auto</option><option value="default">Default</option><option value="2x">2x</option><option value="4x">4x</option><option value="8x">8x</option><option value="16x">16x</option><option value="32x">32x</option><option value="64x">64x</option><option value="none">None</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">VRAM Usage</div>
+                                <div class="text-sm font-semibold text-gray-100">VRAM Usage Mode</div>
                                 <select id="vramMode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
                                     <option value="0" selected>Conservative</option><option value="1">Aggressive</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">ASTC Decoding</div>
+                                <div class="text-sm font-semibold text-gray-100">ASTC Decoding Method</div>
                                 <select id="astcDecode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
                                     <option value="0">CPU</option><option value="1" selected>GPU</option><option value="2">CPU Async</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">ASTC Recompression</div>
-                                <select id="astcRecompress" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0" selected>Uncompressed</option><option value="1">BC1</option><option value="2">BC3</option>
+                                <div class="text-sm font-semibold text-gray-100">Sync Memory Operations</div>
+                                <select id="syncMemoryOps" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Disk Shader Cache</div>
+                                <select id="diskShaderCache" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="true" selected>On</option><option value="false">Off</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Force Maximum Clocks (Adreno only)</div>
+                                <select id="forceMaxClock" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">GPU Async Emulation</div>
+                                <select id="gpuAsync" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="true" selected>On</option><option value="false">Off</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Asynchronous Presentation</div>
+                                <select id="asyncPresentation" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="true" selected>On</option><option value="false">Off</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Use Reactive Flushing</div>
+                                <select id="reactiveFlushing" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Enable Buffer History</div>
+                                <select id="bufferHistory" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Optimized Vertex Buffers</div>
+                                <select id="vertexBuffers" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
                         </div>
@@ -310,7 +352,7 @@
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Fast GPU Time</div>
                                 <select id="fastGpuTime" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Off</option><option value="256" selected>Medium (256)</option><option value="512">High (512)</option>
+                                    <option value="0">Off</option><option value="1" selected>Medium (256)</option><option value="2">High (512)</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
@@ -337,6 +379,26 @@
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
+                            <div id="unswizzleRows" class="divide-y divide-gray-800">
+                                <div class="p-4 flex items-center justify-between">
+                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Max Texture Size (Enabled)</div>
+                                    <select id="unswizzleTextureSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                        <option value="16">Very Small (16 MB)</option><option value="32">Small (32 MB)</option><option value="128" selected>Normal (128 MB)</option><option value="256">Large (256 MB)</option><option value="512">Very Large (512 MB)</option>
+                                    </select>
+                                </div>
+                                <div class="p-4 flex items-center justify-between">
+                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Stream Size (Enabled)</div>
+                                    <select id="unswizzleStreamSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                        <option value="4">Very Low (4 MB)</option><option value="8">Low (8 MB)</option><option value="16" selected>Normal (16 MB)</option><option value="32">Medium (32 MB)</option><option value="64">High (64 MB)</option>
+                                    </select>
+                                </div>
+                                <div class="p-4 flex items-center justify-between">
+                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Chunk Size (Enabled)</div>
+                                    <select id="unswizzleChunkSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                        <option value="32">Very Low (32)</option><option value="64">Low (64)</option><option value="128" selected>Normal (128)</option><option value="256">Medium (256)</option><option value="512">High (512)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -346,7 +408,7 @@
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">Extended Dynamic State</div>
                                 <select id="extState" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Disable</option><option value="1">State 1</option><option value="2">State 2</option><option value="3" selected>State 3</option>
+                                    <option value="0">Disable</option><option value="1">ExtendedDynamicState 1</option><option value="2">ExtendedDynamicState 2</option><option value="3" selected>ExtendedDynamicState 3</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
@@ -368,9 +430,9 @@
                     <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-volume-high text-cyan-500"></i> Audio Configuration</h2>
                     <div class="section-card">
                         <div class="p-4 flex items-center justify-between">
-                            <div class="text-sm font-semibold text-gray-100">Output Engine</div>
+                            <div class="text-sm font-semibold text-gray-100">Output</div>
                             <select id="audioOutput" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                <option value="auto">Auto</option><option value="oboe" selected>Oboe</option><option value="cubeb">Cubeb</option><option value="null">Null</option>
+                                <option value="auto">Auto</option><option value="oboe" selected>oboe</option><option value="cubeb">cubeb</option><option value="null">Null</option>
                             </select>
                         </div>
                     </div>
@@ -380,6 +442,24 @@
                 <div id="section-debug" class="scroll-mt-8 space-y-4">
                     <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-bug text-orange-500"></i> Debug Settings</h2>
                     <div class="section-card">
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">GPU</div>
+                        <div class="divide-y divide-gray-800">
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">API</div>
+                                <select id="graphicsApi" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="0" selected>Vulkan</option><option value="1">None</option>
+                                </select>
+                            </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Disable Buffer Reorder</div>
+                                <select id="disableBufferReorder" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="false" selected>Off</option><option value="true">On</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPU</div>
                         <div class="divide-y divide-gray-800">
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">CPU Backend</div>
@@ -390,18 +470,49 @@
                             <div class="p-4 flex items-center justify-between">
                                 <div class="text-sm font-semibold text-gray-100">CPU Accuracy</div>
                                 <select id="cpuAccuracy" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Auto</option><option value="1" selected>Accurate</option><option value="2">Unsafe</option>
+                                    <option value="0">Auto</option><option value="1" selected>Accurate</option><option value="2">Unsafe</option><option value="3">Paranoid</option><option value="4">Debugging</option>
                                 </select>
                             </div>
                             <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">API</div>
-                                <select id="graphicsApi" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0" selected>Vulkan</option><option value="1">None</option>
+                                <div class="text-sm font-semibold text-gray-100">Fastmem</div>
+                                <select id="fastmem" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="true" selected>On</option><option value="false">Off</option>
                                 </select>
                             </div>
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Enable Host MMU Emulation</div>
+                                <select id="hostMmu" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="true" selected>On</option><option value="false">Off</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Logging</div>
+                        <div class="divide-y divide-gray-800">
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">None</div>
+                                <span class="text-xs text-gray-500">No extra logging controls</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">General</div>
+                        <div class="divide-y divide-gray-800">
                             <div class="p-4 space-y-3">
                                 <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Debug Knobs</span> <span id="val_debugKnobs">0</span></div>
                                 <input type="range" id="debugKnobs" min="0" max="65535" value="0" class="w-full" oninput="document.getElementById('val_debugKnobs').innerText=this.value">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">GPU Logging</div>
+                        <div class="divide-y divide-gray-800">
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="text-sm font-semibold text-gray-100">Log Level</div>
+                                <select id="gpuLogLevel" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                                    <option value="off" selected>Off</option><option value="errors">Errors Only</option><option value="standard">Standard</option><option value="verbose">Verbose</option><option value="all">All</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -429,80 +540,261 @@
     </div>
 
     <script>
-        const aiAnalyzeBtn = document.getElementById('aiAnalyzeBtn');
+        const optimizeBtn = document.getElementById('optimizeBtn');
+        const boostPerformanceBtn = document.getElementById('boostPerformanceBtn');
         const aiResults = document.getElementById('aiResults');
         const aiStatus = document.getElementById('aiStatus');
         const aiChips = document.getElementById('aiChips');
+        const aiSummary = document.getElementById('aiSummary');
         const saveBtn = document.getElementById('saveBtn');
         const toast = document.getElementById('toast');
+
+        const rangeLabels = {
+            perfLimit: { label: 'val_perfLimit', suffix: '%' },
+            turboLimit: { label: 'val_turboLimit', suffix: '%' },
+            slowLimit: { label: 'val_slowLimit', suffix: '%' },
+            fsrSharp: { label: 'val_fsrSharp', suffix: '%' },
+            sampleShading: { label: 'val_sampleShading', suffix: '%' },
+            debugKnobs: { label: 'val_debugKnobs', suffix: '' }
+        };
 
         function scrollToSection(id) {
             const el = document.getElementById('section-' + id);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
 
-        aiAnalyzeBtn.onclick = () => {
-            const deviceName = document.getElementById('deviceName').value.toLowerCase();
-            const deviceModel = document.getElementById('deviceModel').value.toLowerCase();
-            aiAnalyzeBtn.disabled = true;
-            aiAnalyzeBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Benchmarking...';
-            
+        function getValue(id) {
+            const el = document.getElementById(id);
+            return el ? el.value : '';
+        }
+
+        function sanitizeIniText(value) {
+            return String(value || '').replace(/[\r\n]+/g, ' ').trim();
+        }
+
+        function boolString(value) {
+            return value ? 'true' : 'false';
+        }
+
+        function updateRangeLabel(id) {
+            const config = rangeLabels[id];
+            const input = document.getElementById(id);
+            const label = document.getElementById(config.label);
+            if (!input || !label) return;
+            label.innerText = `${input.value}${config.suffix}`;
+        }
+
+        function setControlValue(id, value) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.value = String(value);
+            if (rangeLabels[id]) updateRangeLabel(id);
+        }
+
+        function setRowEnabled(rowId, enabled) {
+            const row = document.getElementById(rowId);
+            if (!row) return;
+            row.classList.toggle('opacity-50', !enabled);
+            row.querySelectorAll('input, select').forEach((control) => {
+                control.disabled = !enabled;
+            });
+        }
+
+        function toggleSpeedRows() {
+            const enabled = getValue('limitSpeed') === 'true';
+            ['perfLimitRow', 'turboLimitRow', 'slowLimitRow'].forEach((rowId) => setRowEnabled(rowId, enabled));
+        }
+
+        function toggleFsrRow() {
+            const enabled = getValue('filter') === '10';
+            setRowEnabled('fsrSharpRow', enabled);
+        }
+
+        function toggleUnswizzleRows() {
+            const enabled = getValue('unswizzle') === 'true';
+            const rows = document.getElementById('unswizzleRows');
+            if (!rows) return;
+            rows.classList.toggle('hidden', !enabled);
+            rows.querySelectorAll('select').forEach((control) => {
+                control.disabled = !enabled;
+            });
+        }
+
+        function syncConditionalRows() {
+            toggleSpeedRows();
+            toggleFsrRow();
+            toggleUnswizzleRows();
+        }
+
+        function getSelectedText(id) {
+            const el = document.getElementById(id);
+            return el && el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
+        }
+
+        function detectHardwareTier() {
+            const deviceName = getValue('deviceName').toLowerCase();
+            const deviceModel = getValue('deviceModel').toLowerCase();
             const isHighEnd = deviceName.includes('ultra') || deviceName.includes('s24') || deviceName.includes('s23') || deviceName.includes('fold') || deviceName.includes('iphone 15') || deviceName.includes('snapdragon 8 gen 3') || deviceModel.includes('s928');
             const isMidEnd = deviceName.includes('pixel') || deviceName.includes('s22') || deviceName.includes('s21') || deviceName.includes('snapdragon 8 gen 1');
-            
-            setTimeout(() => {
-                aiAnalyzeBtn.disabled = false;
-                aiAnalyzeBtn.innerHTML = 'Tune Applied';
-                aiAnalyzeBtn.classList.replace('bg-emerald-500', 'bg-emerald-600');
-                
-                if (isHighEnd) {
-                    aiStatus.innerText = "High-tier hardware detected. Applying Elite Performance Profile.";
-                    document.getElementById('cpuOC').value = "2";
-                    document.getElementById('memLayout').value = "2";
-                    document.getElementById('resolution').value = "3";
-                    document.getElementById('gpuMode').value = "2";
-                    document.getElementById('fastGpuTime').value = "512";
-                } else if (isMidEnd) {
-                    aiStatus.innerText = "Mid-tier hardware detected. Applying Balanced Profile.";
-                    document.getElementById('cpuOC').value = "1";
-                    document.getElementById('memLayout').value = "1";
-                    document.getElementById('resolution').value = "2";
-                    document.getElementById('gpuMode').value = "1";
-                    document.getElementById('fastGpuTime').value = "256";
-                } else {
-                    aiStatus.innerText = "Standard hardware profile detected. Applying Compatibility Profile.";
-                    document.getElementById('cpuOC').value = "0";
-                    document.getElementById('memLayout').value = "0";
-                    document.getElementById('resolution').value = "1";
-                    document.getElementById('gpuMode').value = "0";
-                    document.getElementById('fastGpuTime').value = "0";
-                }
-                
-                aiResults.classList.remove('hidden');
-                aiChips.innerHTML = `
-                    <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Profile: ${isHighEnd ? 'Elite' : (isMidEnd ? 'Balanced' : 'Safe')}</div>
-                    <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Backend: NCE</div>
-                    <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Resolution Optimized</div>
-                `;
-                document.getElementById('aiSummary').classList.remove('hidden');
-                showToast(`Optimized for ${deviceName || deviceModel || 'General Hardware'}`);
-            }, 1500);
-        };
+            if (isHighEnd) return 'elite';
+            if (isMidEnd) return 'balanced';
+            return 'safe';
+        }
 
-        saveBtn.onclick = () => {
+        function tierLabel(tier) {
+            return tier === 'elite' ? 'Elite' : tier === 'balanced' ? 'Balanced' : 'Safe';
+        }
+
+        function buildPreset(mode, tier) {
+            const baseSettings = {
+                limitSpeed: 'true',
+                perfLimit: '100',
+                turboLimit: '200',
+                slowLimit: '50',
+                dockedMode: '0',
+                cpuOC: '1',
+                syncCore: 'true',
+                memLayout: '0',
+                cpuTicks: 'false',
+                resolution: '3',
+                vsync: '2',
+                filter: '10',
+                fsrSharp: '88',
+                aa: '0',
+                spirv: '1',
+                gpuMode: '1',
+                dmaAccuracy: '0',
+                af: 'auto',
+                vramMode: '0',
+                astcDecode: '1',
+                syncMemoryOps: 'true',
+                diskShaderCache: 'true',
+                forceMaxClock: 'true',
+                gpuAsync: 'true',
+                asyncPresentation: 'true',
+                reactiveFlushing: 'true',
+                bufferHistory: 'true',
+                vertexBuffers: 'true',
+                fastGpuTime: '1',
+                skipCpuInv: 'true',
+                fixBloom: 'true',
+                asyncShaders: 'true',
+                unswizzle: 'true',
+                unswizzleTextureSize: '128',
+                unswizzleStreamSize: '16',
+                unswizzleChunkSize: '128',
+                extState: '3',
+                vertexInput: 'true',
+                sampleShading: '0',
+                audioOutput: 'oboe',
+                graphicsApi: '0',
+                disableBufferReorder: 'false',
+                cpuBackend: '1',
+                cpuAccuracy: '1',
+                fastmem: 'true',
+                hostMmu: 'true',
+                debugKnobs: '0',
+                gpuLogLevel: 'off'
+            };
+
+            const optimizeProfiles = {
+                elite: { cpuOC: '2', memLayout: '2', resolution: '3', gpuMode: '2', fastGpuTime: '2', forceMaxClock: 'true' },
+                balanced: { cpuOC: '1', memLayout: '1', resolution: '2', gpuMode: '1', fastGpuTime: '1', forceMaxClock: 'true' },
+                safe: { cpuOC: '0', memLayout: '0', resolution: '1', gpuMode: '0', fastGpuTime: '0', forceMaxClock: 'false', reactiveFlushing: 'false' }
+            };
+
+            const boostProfiles = {
+                elite: { cpuOC: '2', memLayout: '2', resolution: '2', vsync: '1', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'default', vramMode: '1', fastGpuTime: '2', reactiveFlushing: 'false' },
+                balanced: { cpuOC: '2', memLayout: '1', resolution: '1', vsync: '0', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'none', vramMode: '1', fastGpuTime: '2', syncMemoryOps: 'false', reactiveFlushing: 'false' },
+                safe: { cpuOC: '1', memLayout: '0', resolution: '0', vsync: '0', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'none', vramMode: '1', fastGpuTime: '1', syncMemoryOps: 'false', forceMaxClock: 'false', reactiveFlushing: 'false', bufferHistory: 'false' }
+            };
+
+            const profile = mode === 'boost' ? boostProfiles[tier] : optimizeProfiles[tier];
+            return { ...baseSettings, ...profile };
+        }
+
+        function applySettings(settings) {
+            Object.entries(settings).forEach(([id, value]) => setControlValue(id, value));
+            syncConditionalRows();
+        }
+
+        function setPresetButtonsBusy(activeButton, label) {
+            [optimizeBtn, boostPerformanceBtn].forEach((button) => {
+                button.disabled = true;
+                if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
+            });
+            activeButton.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> ${label}`;
+        }
+
+        function resetPresetButtons() {
+            [optimizeBtn, boostPerformanceBtn].forEach((button) => {
+                button.disabled = false;
+                if (button.dataset.originalHtml) {
+                    button.innerHTML = button.dataset.originalHtml;
+                }
+            });
+        }
+
+        function renderPresetSummary(mode, tier) {
+            aiResults.classList.remove('hidden');
+            aiSummary.classList.remove('hidden');
+            aiChips.innerHTML = `
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Mode: ${mode === 'boost' ? 'Boost Performance' : 'Optimize'}</div>
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Profile: ${tierLabel(tier)}</div>
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Resolution: ${getSelectedText('resolution')}</div>
+            `;
+        }
+
+        function runPreset(mode) {
+            const activeButton = mode === 'boost' ? boostPerformanceBtn : optimizeBtn;
+            const tier = detectHardwareTier();
+            const deviceLabel = sanitizeIniText(getValue('deviceName')) || sanitizeIniText(getValue('deviceModel')) || 'General Hardware';
+            const presetLabel = mode === 'boost' ? 'Boosting...' : 'Optimizing...';
+            const statusMap = {
+                optimize: {
+                    elite: 'High-tier hardware detected. Applying Elite Optimization Profile.',
+                    balanced: 'Mid-tier hardware detected. Applying Balanced Optimization Profile.',
+                    safe: 'Standard hardware detected. Applying Compatibility Optimization Profile.'
+                },
+                boost: {
+                    elite: 'High-tier hardware detected. Applying aggressive performance boost.',
+                    balanced: 'Mid-tier hardware detected. Applying stronger performance boost.',
+                    safe: 'Standard hardware detected. Applying safe boost profile.'
+                }
+            };
+
+            setPresetButtonsBusy(activeButton, presetLabel);
+            setTimeout(() => {
+                applySettings(buildPreset(mode, tier));
+                aiStatus.innerText = statusMap[mode][tier];
+                renderPresetSummary(mode, tier);
+                resetPresetButtons();
+                showToast(`${mode === 'boost' ? 'Boosted' : 'Optimized'} for ${deviceLabel}`);
+            }, 900);
+        }
+
+        optimizeBtn.addEventListener('click', () => runPreset('optimize'));
+        boostPerformanceBtn.addEventListener('click', () => runPreset('boost'));
+
+        saveBtn.addEventListener('click', () => {
             const original = saveBtn.innerHTML;
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
             setTimeout(() => {
                 generateAndDownloadIni();
                 saveBtn.innerHTML = original;
-                showToast("INI Exported Successfully");
+                showToast('INI Exported Successfully');
             }, 800);
-        };
+        });
 
         function generateAndDownloadIni() {
-            const gameTitle = document.getElementById('gameInput').value || "Unknown Game";
+            const gameTitle = sanitizeIniText(getValue('gameInput')) || 'Unknown Game';
+            const driverPath = sanitizeIniText(getValue('driverPath'));
+            const cpuOverclock = getValue('cpuOC');
+            const fastGpuTime = getValue('fastGpuTime');
+            const sampleShading = getValue('sampleShading');
+            const fsrSharpness = getValue('filter') === '10' ? getValue('fsrSharp') : '0';
+            const unswizzleEnabled = getValue('unswizzle') === 'true';
 
-            // Removed metadata comments as requested
             const iniContent = `[LibraryApplet]
 cabinet_applet_mode\\use_global=true
 controller_applet_mode\\use_global=true
@@ -525,34 +817,40 @@ motion_enabled\\use_global=true
 
 [Core]
 use_multi_core\\use_global=true
-memory_layout_mode=${document.getElementById('memLayout').value}
+memory_layout_mode=${getValue('memLayout')}
 memory_layout_mode\\use_global=false
-use_speed_limit=${document.getElementById('limitSpeed').value}
+use_speed_limit=${getValue('limitSpeed')}
 use_speed_limit\\use_global=false
-speed_limit=${document.getElementById('perfLimit').value}
+speed_limit=${getValue('perfLimit')}
 speed_limit\\use_global=false
-slow_speed_limit=${document.getElementById('slowLimit').value}
+slow_speed_limit=${getValue('slowLimit')}
 slow_speed_limit\\use_global=false
-turbo_speed_limit=${document.getElementById('turboLimit').value}
+turbo_speed_limit=${getValue('turboLimit')}
 turbo_speed_limit\\use_global=false
-sync_core_speed=${document.getElementById('syncCore').value}
+sync_core_speed=${getValue('syncCore')}
 sync_core_speed\\use_global=false
-debug_knobs=${document.getElementById('debugKnobs').value}
+debug_knobs=${getValue('debugKnobs')}
 debug_knobs\\use_global=false
 
 [Cpu]
-cpu_backend=${document.getElementById('cpuBackend').value}
+cpu_backend=${getValue('cpuBackend')}
 cpu_backend\\use_global=false
-cpu_accuracy=${document.getElementById('cpuAccuracy').value}
+cpu_accuracy=${getValue('cpuAccuracy')}
 cpu_accuracy\\use_global=false
-fast_cpu_time\\use_global=true
-use_custom_cpu_ticks=${document.getElementById('cpuTicks').value}
+use_fast_cpu_time=${boolString(cpuOverclock !== '0')}
+use_fast_cpu_time\\use_global=false
+fast_cpu_time=${cpuOverclock}
+fast_cpu_time\\use_global=false
+use_custom_cpu_ticks=${getValue('cpuTicks')}
 use_custom_cpu_ticks\\use_global=false
 cpu_ticks\\use_global=true
 vtable_bouncing\\use_global=true
-cpuopt_fastmem\\use_global=true
-cpuopt_fastmem_exclusives\\use_global=true
-cpuopt_unsafe_host_mmu\\use_global=true
+cpuopt_fastmem=${getValue('fastmem')}
+cpuopt_fastmem\\use_global=false
+cpuopt_fastmem_exclusives=${getValue('fastmem')}
+cpuopt_fastmem_exclusives\\use_global=false
+cpuopt_unsafe_host_mmu=${getValue('hostMmu')}
+cpuopt_unsafe_host_mmu\\use_global=false
 cpuopt_unsafe_unfuse_fma\\use_global=true
 cpuopt_unsafe_reduce_fp_error\\use_global=true
 cpuopt_unsafe_ignore_standard_fpcr\\use_global=true
@@ -561,78 +859,91 @@ cpuopt_unsafe_fastmem_check\\use_global=true
 cpuopt_unsafe_ignore_global_monitor\\use_global=true
 
 [Renderer]
-backend=${document.getElementById('graphicsApi').value}
+backend=${getValue('graphicsApi')}
 backend\\use_global=false
 vulkan_device\\use_global=true
-resolution_setup=${document.getElementById('resolution').value}
+resolution_setup=${getValue('resolution')}
 resolution_setup\\use_global=false
-use_vsync=${document.getElementById('vsync').value}
+use_vsync=${getValue('vsync')}
 use_vsync\\use_global=false
-scaling_filter=${document.getElementById('filter').value}
+scaling_filter=${getValue('filter')}
 scaling_filter\\use_global=false
-fsr_sharpening_slider=${document.getElementById('fsrSharp').value}
+fsr_sharpening_slider=${fsrSharpness}
 fsr_sharpening_slider\\use_global=false
 aspect_ratio\\use_global=true
-anti_aliasing=${document.getElementById('aa').value}
+anti_aliasing=${getValue('aa')}
 anti_aliasing\\use_global=false
-optimize_spirv_output\\use_global=true
-use_asynchronous_gpu_emulation\\use_global=true
+optimize_spirv_output=${getValue('spirv')}
+optimize_spirv_output\\use_global=false
+use_asynchronous_gpu_emulation=${getValue('gpuAsync')}
+use_asynchronous_gpu_emulation\\use_global=false
 fullscreen_mode\\use_global=true
 bg_red\\use_global=true
 bg_green\\use_global=true
 bg_blue\\use_global=true
-gpu_accuracy=${document.getElementById('gpuMode').value}
+gpu_accuracy=${getValue('gpuMode')}
 gpu_accuracy\\use_global=false
-dma_accuracy=${document.getElementById('dmaAccuracy').value}
+dma_accuracy=${getValue('dmaAccuracy')}
 dma_accuracy\\use_global=false
-vram_usage_mode=${document.getElementById('vramMode').value}
+vram_usage_mode=${getValue('vramMode')}
 vram_usage_mode\\use_global=false
 nvdec_emulation\\use_global=true
-max_anisotropy=${document.getElementById('af').value}
+max_anisotropy=${getValue('af')}
 max_anisotropy\\use_global=false
-accelerate_astc=${document.getElementById('astcDecode').value}
+accelerate_astc=${getValue('astcDecode')}
 accelerate_astc\\use_global=false
-frame_pacing_mode=${document.getElementById('framePacing').value}
-frame_pacing_mode\\use_global=false
-astc_recompression=${document.getElementById('astcRecompress').value}
-astc_recompression\\use_global=false
-sync_memory_operations\\use_global=true
-force_max_clock\\use_global=true
-use_disk_shader_cache\\use_global=true
+sync_memory_operations=${getValue('syncMemoryOps')}
+sync_memory_operations\\use_global=false
+force_max_clock=${getValue('forceMaxClock')}
+force_max_clock\\use_global=false
+use_disk_shader_cache=${getValue('diskShaderCache')}
+use_disk_shader_cache\\use_global=false
 use_vulkan_driver_pipeline_cache\\use_global=true
 enable_compute_pipelines\\use_global=true
 use_video_framerate\\use_global=true
-use_reactive_flushing\\use_global=true
+use_reactive_flushing=${getValue('reactiveFlushing')}
+use_reactive_flushing\\use_global=false
 barrier_feedback_loops\\use_global=true
-enable_buffer_history\\use_global=true
-use_optimized_vertex_buffers\\use_global=true
-fast_gpu_time=${document.getElementById('fastGpuTime').value}
+enable_buffer_history=${getValue('bufferHistory')}
+enable_buffer_history\\use_global=false
+use_optimized_vertex_buffers=${getValue('vertexBuffers')}
+use_optimized_vertex_buffers\\use_global=false
+use_fast_gpu_time=${boolString(fastGpuTime !== '0')}
+use_fast_gpu_time\\use_global=false
+fast_gpu_time=${fastGpuTime}
 fast_gpu_time\\use_global=false
-skip_cpu_inner_invalidation=${document.getElementById('skipCpuInv').value}
+skip_cpu_inner_invalidation=${getValue('skipCpuInv')}
 skip_cpu_inner_invalidation\\use_global=false
-async_presentation\\use_global=true
-fix_bloom_effects=${document.getElementById('fixBloom').value}
+async_presentation=${getValue('asyncPresentation')}
+async_presentation\\use_global=false
+fix_bloom_effects=${getValue('fixBloom')}
 fix_bloom_effects\\use_global=false
 rescale_hack\\use_global=true
-use_asynchronous_shaders=${document.getElementById('asyncShaders').value}
+use_asynchronous_shaders=${getValue('asyncShaders')}
 use_asynchronous_shaders\\use_global=false
-gpu_unswizzle_texture_size\\use_global=true
-gpu_unswizzle_stream_size\\use_global=true
-gpu_unswizzle_chunk_size\\use_global=true
-gpu_unswizzle_enabled=${document.getElementById('unswizzle').value}
+gpu_unswizzle_texture_size=${getValue('unswizzleTextureSize')}
+gpu_unswizzle_texture_size\\use_global=${boolString(!unswizzleEnabled)}
+gpu_unswizzle_stream_size=${getValue('unswizzleStreamSize')}
+gpu_unswizzle_stream_size\\use_global=${boolString(!unswizzleEnabled)}
+gpu_unswizzle_chunk_size=${getValue('unswizzleChunkSize')}
+gpu_unswizzle_chunk_size\\use_global=${boolString(!unswizzleEnabled)}
+gpu_unswizzle_enabled=${getValue('unswizzle')}
 gpu_unswizzle_enabled\\use_global=false
-dyna_state=${document.getElementById('extState').value}
+dyna_state=${getValue('extState')}
 dyna_state\\use_global=false
-sample_shading_fraction=${document.getElementById('sampleShading').value}
+sample_shading=${boolString(Number(sampleShading) > 0)}
+sample_shading\\use_global=false
+sample_shading_fraction=${sampleShading}
 sample_shading_fraction\\use_global=false
-vertex_input_dynamic_state=${document.getElementById('vertexInput').value}
+vertex_input_dynamic_state=${getValue('vertexInput')}
 vertex_input_dynamic_state\\use_global=false
 provoking_vertex\\use_global=true
 descriptor_indexing\\use_global=true
-disable_buffer_reorder\\use_global=true
+disable_buffer_reorder=${getValue('disableBufferReorder')}
+disable_buffer_reorder\\use_global=false
 
 [Audio]
-output_engine=${document.getElementById('audioOutput').value}
+output_engine=${getValue('audioOutput')}
 output_engine\\use_global=false
 output_device\\use_global=true
 input_device\\use_global=true
@@ -646,19 +957,26 @@ custom_rtc_enabled\\use_global=true
 custom_rtc_offset\\use_global=true
 rng_seed_enabled\\use_global=true
 rng_seed\\use_global=true
-use_docked_mode=${document.getElementById('dockedMode').value}
+use_docked_mode=${getValue('dockedMode')}
 use_docked_mode\\use_global=false
 sound_index\\use_global=true
 
+[Debug]
+gpu_log_level=${getValue('gpuLogLevel')}
+gpu_log_level\\use_global=false
+
 [GpuDriver]
-driver_path\\use_global=true
+driver_path=${driverPath}
+driver_path\\use_global=${boolString(!driverPath)}
 `;
+
             const blob = new Blob([iniContent], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = `eden_tune_${gameTitle.replace(/\s+/g, '_').toLowerCase()}.ini`;
             a.click();
+            window.URL.revokeObjectURL(url);
         }
 
         function showToast(msg) {
@@ -667,7 +985,12 @@ driver_path\\use_global=true
             setTimeout(() => toast.classList.add('translate-y-[-200%]'), 3000);
         }
 
-        // Sidebar logic
+        Object.keys(rangeLabels).forEach((id) => updateRangeLabel(id));
+        document.getElementById('limitSpeed').addEventListener('change', toggleSpeedRows);
+        document.getElementById('filter').addEventListener('change', toggleFsrRow);
+        document.getElementById('unswizzle').addEventListener('change', toggleUnswizzleRows);
+        syncConditionalRows();
+
         document.getElementById('openSidebar').onclick = () => {
             document.getElementById('sidebar').classList.remove('-translate-x-full');
             document.getElementById('mobileOverlay').classList.remove('hidden');
