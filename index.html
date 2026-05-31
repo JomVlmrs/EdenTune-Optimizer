@@ -7,174 +7,193 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0b0f19;
-            color: #d1d5db;
+            background-color: #050810; /* Deeper dark background */
+            color: #e5e7eb;
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0b0f19; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #374151; }
+        /* Sleek scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
+        /* Premium Range Slider */
         input[type="range"] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
-        input[type="range"]::-webkit-slider-runnable-track { background: #374151; height: 4px; border-radius: 8px; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; margin-top: -6px; background-color: #6366f1; height: 16px; width: 16px; border-radius: 50%; border: 2px solid #0b0f19; }
+        input[type="range"]::-webkit-slider-runnable-track { background: #1f2937; height: 6px; border-radius: 8px; transition: 0.2s; }
+        input[type="range"]:hover::-webkit-slider-runnable-track { background: #374151; }
+        input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; appearance: none; 
+            margin-top: -5px; background-color: #e0e7ff; 
+            height: 16px; width: 16px; border-radius: 50%; 
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+            border: 2px solid #6366f1; transition: 0.2s;
+        }
+        input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.2); }
 
-        .section-card { background-color: #111827; border: 1px solid #1f2937; border-radius: 0.75rem; overflow: hidden; margin-bottom: 1.5rem; }
-        .section-header { background-color: rgba(31, 41, 55, 0.3); padding: 0.5rem 1rem; border-bottom: 1px solid #1f2937; }
+        /* Base Card Styling */
+        .section-card { 
+            background: linear-gradient(145deg, rgba(17,24,39,0.8), rgba(13,18,28,0.9)); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(55, 65, 81, 0.5); 
+            border-radius: 1.25rem; 
+            overflow: hidden; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .section-card:hover { border-color: rgba(99, 102, 241, 0.3); }
+        .section-header { 
+            background: rgba(31, 41, 55, 0.4); 
+            padding: 0.75rem 1.25rem; 
+            border-bottom: 1px solid rgba(55, 65, 81, 0.5); 
+        }
         
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Premium Select Styling */
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem !important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            transition: all 0.2s;
+        }
+        select:focus { box-shadow: 0 0 0 2px rgba(99,102,241,0.5); border-color: #6366f1; }
+
+        /* Animations */
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        .pulse-ai { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .pulse-glow { animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+
+        .sub-setting { border-left: 2px solid #374151; padding-left: 1.25rem; margin-left: 0.5rem; margin-top: 0.75rem; transition: all 0.3s ease; }
     </style>
 </head>
 <body class="overflow-hidden h-screen flex">
 
-    <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#111827] border-r border-gray-800 transition-transform duration-300 -translate-x-full md:translate-x-0 flex flex-col">
-        <div class="flex items-center justify-between p-6 border-b border-gray-800">
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0a0f18] border-r border-gray-800/60 transition-transform duration-300 -translate-x-full md:translate-x-0 flex flex-col shadow-2xl">
+        <div class="flex items-center justify-between p-6 border-b border-gray-800/60">
             <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/20">
-                    <i class="fas fa-bolt-lightning"></i>
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-2.5 rounded-xl text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fas fa-bolt-lightning text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-gray-100 text-lg leading-tight tracking-tight">EdenTune</h1>
-                    <span class="text-[9px] text-indigo-400 font-bold tracking-widest uppercase">Optimizer</span>
+                    <h1 class="font-bold text-gray-50 text-lg leading-tight tracking-tight">EdenTune</h1>
+                    <span class="text-[9px] text-indigo-400 font-bold tracking-widest uppercase letter-spacing-1">Optimizer</span>
                 </div>
             </div>
-            <button class="md:hidden text-gray-400" id="closeSidebar"><i class="fas fa-times"></i></button>
+            <button class="md:hidden text-gray-400 hover:text-white transition-colors" id="closeSidebar"><i class="fas fa-times text-xl"></i></button>
         </div>
-        <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
-            <button onclick="scrollToSection('ai')" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all text-left font-semibold text-indigo-400 hover:bg-indigo-500/10 mb-4 border border-indigo-500/20">
+        <nav class="p-4 space-y-1.5 overflow-y-auto flex-1 custom-scrollbar">
+            <button onclick="scrollToSection('ai')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 mb-6 border border-indigo-500/20 shadow-inner">
                 <i class="fas fa-wand-magic-sparkles"></i> Performance Boost
             </button>
-            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-4 mb-2">Categories</div>
-            <button onclick="scrollToSection('system')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-100"><i class="fas fa-microchip w-5 text-center"></i> System</button>
-            <button onclick="scrollToSection('graphics')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-100"><i class="fas fa-image w-5 text-center"></i> Graphics</button>
-            <button onclick="scrollToSection('hacks')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-100"><i class="fas fa-flask w-5 text-center"></i> Hacks & Ext</button>
-            <button onclick="scrollToSection('audio')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-100"><i class="fas fa-volume-high w-5 text-center"></i> Audio</button>
-            <button onclick="scrollToSection('debug')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-100"><i class="fas fa-bug w-5 text-center"></i> Debug</button>
+            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-4 mb-3 mt-4">Configuration</div>
+            <button onclick="scrollToSection('system')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-gray-100 transition-colors"><i class="fas fa-microchip w-5 text-center text-gray-500"></i> System</button>
+            <button onclick="scrollToSection('graphics')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-gray-100 transition-colors"><i class="fas fa-image w-5 text-center text-gray-500"></i> Graphics</button>
+            <button onclick="scrollToSection('hacks')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-gray-100 transition-colors"><i class="fas fa-flask w-5 text-center text-gray-500"></i> Hacks & Ext</button>
+            <button onclick="scrollToSection('audio')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-gray-100 transition-colors"><i class="fas fa-volume-high w-5 text-center text-gray-500"></i> Audio</button>
+            <button onclick="scrollToSection('debug')" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-400 hover:bg-gray-800/50 hover:text-gray-100 transition-colors"><i class="fas fa-bug w-5 text-center text-gray-500"></i> Debug</button>
         </nav>
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-        <header class="md:hidden flex items-center p-4 border-b border-gray-800 bg-[#111827]">
-            <button class="p-2 -ml-2 text-gray-400" id="openSidebar"><i class="fas fa-bars fa-lg"></i></button>
-            <h2 class="ml-2 font-semibold text-gray-100">EdenTune Optimizer</h2>
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative bg-gradient-to-br from-[#050810] to-[#0a0f18]">
+        <header class="md:hidden flex items-center p-4 border-b border-gray-800/60 bg-[#0a0f18]/80 backdrop-blur-md z-30 relative">
+            <button class="p-2 -ml-2 text-gray-400 hover:text-white transition-colors" id="openSidebar"><i class="fas fa-bars fa-lg"></i></button>
+            <h2 class="ml-3 font-semibold text-gray-100 tracking-wide">EdenTune Optimizer</h2>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar bg-[#0b0f19]">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar relative z-10">
             <div class="max-w-4xl mx-auto space-y-8 pb-32">
                 
-                <!-- AI PANEL -->
-                <div id="section-ai" class="bg-gradient-to-br from-indigo-900/20 to-emerald-900/10 border border-emerald-500/30 rounded-2xl p-6 scroll-mt-6 shadow-xl">
+                <div id="section-ai" class="bg-gradient-to-br from-indigo-900/30 to-emerald-900/20 backdrop-blur-lg border border-emerald-500/20 rounded-2xl p-7 scroll-mt-6 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div class="flex items-center gap-5">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-2xl shadow-emerald-500/40 relative">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <div class="w-14 h-14 min-w-[56px] rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 relative pulse-glow">
                                 <i class="fas fa-gauge-high text-2xl" id="aiIcon"></i>
-                                <div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full border-2 border-[#111827] pulse-ai"></div>
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-white tracking-tight">Eden Optimized Tune</h3>
-                                <p class="text-xs text-emerald-300/70 font-medium" id="aiStatus">Choose a preset to optimize or push for extra performance.</p>
+                                <p class="text-sm text-emerald-200/70 mt-0.5" id="aiStatus">Optimizing settings based on your device profile.</p>
                             </div>
                         </div>
-                        <div class="flex w-full md:w-auto flex-col sm:flex-row gap-3">
-                            <button id="optimizeBtn" class="group relative px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center justify-center gap-3 overflow-hidden">
-                                <span class="relative z-10">Optimize</span>
-                                <i class="fas fa-sliders relative z-10 text-white group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                            <button id="boostPerformanceBtn" class="group relative px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl flex items-center justify-center gap-3 overflow-hidden">
-                                <span class="relative z-10">Boost Performance</span>
-                                <i class="fas fa-rocket relative z-10 text-white group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
+                        <button id="aiAnalyzeBtn" class="w-full md:w-auto group relative px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-lg flex items-center justify-center gap-3 overflow-hidden border border-emerald-400/30">
+                            <span class="relative z-10">Apply Recommended Tune</span>
+                            <i class="fas fa-rocket relative z-10 text-emerald-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                        </button>
                     </div>
-                    <div id="aiResults" class="hidden mt-6 pt-6 border-t border-emerald-500/20 animate-fade-in">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="aiChips"></div>
+                    <div id="aiResults" class="hidden mt-7 pt-6 border-t border-emerald-500/20 animate-fade-in">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="aiChips"></div>
                     </div>
                 </div>
 
-                <!-- Info Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="space-y-1.5">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="space-y-2">
                         <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">Device Name</label>
-                        <div class="flex items-center bg-[#111827] border border-gray-800 rounded-xl px-4 py-2.5 focus-within:border-indigo-500 shadow-inner">
-                            <i class="fas fa-mobile-alt text-gray-600 mr-3"></i>
-                            <input type="text" id="deviceName" placeholder="Redmi Note 12 4G" class="bg-transparent text-sm w-full outline-none text-gray-100">
+                        <div class="flex items-center bg-[#1a2235]/50 backdrop-blur-sm border border-gray-700/60 rounded-xl px-4 py-3 focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400/50 transition-all shadow-inner">
+                            <i class="fas fa-mobile-alt text-gray-500 mr-3"></i>
+                            <input type="text" id="deviceName" placeholder="Redmi Note 12" class="bg-transparent text-sm w-full outline-none text-gray-100 placeholder-gray-600 font-medium">
                         </div>
                     </div>
-                    <div class="space-y-1.5">
+                    <div class="space-y-2">
                         <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">Device Model</label>
-                        <div class="flex items-center bg-[#111827] border border-gray-800 rounded-xl px-4 py-2.5 focus-within:border-indigo-500 shadow-inner">
-                            <i class="fas fa-fingerprint text-gray-600 mr-3"></i>
-                            <input type="text" id="deviceModel" placeholder="23021RAAEG" class="bg-transparent text-sm w-full outline-none text-gray-100">
+                        <div class="flex items-center bg-[#1a2235]/50 backdrop-blur-sm border border-gray-700/60 rounded-xl px-4 py-3 focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400/50 transition-all shadow-inner">
+                            <i class="fas fa-fingerprint text-gray-500 mr-3"></i>
+                            <input type="text" id="deviceModel" placeholder="23021RAAEG" class="bg-transparent text-sm w-full outline-none text-gray-100 placeholder-gray-600 font-medium">
                         </div>
                     </div>
-                    <div class="space-y-1.5">
+                    <div class="space-y-2">
                         <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">Game Title</label>
-                        <div class="flex items-center bg-[#111827] border border-gray-800 rounded-xl px-4 py-2.5 focus-within:border-emerald-500 shadow-inner">
-                            <i class="fas fa-gamepad text-gray-600 mr-3"></i>
-                            <input type="text" id="gameInput" placeholder="Outlast: Bundle of Terror" class="bg-transparent text-sm w-full outline-none text-gray-100">
+                        <div class="flex items-center bg-[#1a2235]/50 backdrop-blur-sm border border-gray-700/60 rounded-xl px-4 py-3 focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-400/50 transition-all shadow-inner">
+                            <i class="fas fa-gamepad text-gray-500 mr-3"></i>
+                            <input type="text" id="gameInput" placeholder="Outlast" class="bg-transparent text-sm w-full outline-none text-gray-100 placeholder-gray-600 font-medium">
                         </div>
                     </div>
-                </div>
-
-                <!-- Second Info Row (Driver & Problem) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
+                    <div class="space-y-2">
                         <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">Custom GPU Driver</label>
-                        <div class="flex items-center bg-[#111827] border border-gray-800 rounded-xl px-4 py-2.5 focus-within:border-indigo-500 shadow-inner">
-                            <i class="fas fa-folder-open text-gray-600 mr-3"></i>
-                            <input type="text" id="driverPath" placeholder="Turnip Adreno 24.3.4" class="bg-transparent text-sm w-full outline-none text-gray-100">
-                        </div>
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">Problem Description</label>
-                        <div class="flex items-center bg-[#111827] border border-gray-800 rounded-xl px-4 py-2.5 focus-within:border-red-500 shadow-inner">
-                            <i class="fas fa-circle-exclamation text-gray-600 mr-3"></i>
-                            <input type="text" id="problemDesc" placeholder="e.g., Random crashes during gameplay" class="bg-transparent text-sm w-full outline-none text-gray-100">
+                        <div class="flex items-center bg-[#1a2235]/50 backdrop-blur-sm border border-gray-700/60 rounded-xl px-4 py-3 focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400/50 transition-all shadow-inner">
+                            <i class="fas fa-folder-open text-gray-500 mr-3"></i>
+                            <input type="text" id="driverPath" placeholder="Turnip 24.3.4" class="bg-transparent text-sm w-full outline-none text-gray-100 placeholder-gray-600 font-medium">
                         </div>
                     </div>
                 </div>
 
-                <!-- SYSTEM SECTION -->
-                <div id="section-system" class="scroll-mt-8 space-y-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-microchip text-indigo-500"></i> System Settings</h2>
+                <div id="section-system" class="scroll-mt-8 space-y-5">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center gap-3"><i class="fas fa-microchip text-indigo-500 text-2xl drop-shadow-md"></i> System Settings</h2>
                     
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">General</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Limit Speed</div>
-                                <select id="limitSpeed" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
+                        <div class="section-header">General</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Limit Speed</div>
+                                <select id="limitSpeed" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div id="perfLimitRow" class="p-4 space-y-3 transition-opacity">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Limit Speed (Enable)</span> <span id="val_perfLimit">100%</span></div>
+                            <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>Limit Speed (Enable)</span> <span id="val_perfLimit" class="text-indigo-300">100%</span></div>
                                 <input type="range" id="perfLimit" min="1" max="400" value="100" class="w-full" oninput="document.getElementById('val_perfLimit').innerText=this.value+'%'">
                             </div>
-                            <div id="turboLimitRow" class="p-4 space-y-3 transition-opacity">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Turbo Speed (Enable)</span> <span id="val_turboLimit">200%</span></div>
+                            <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>Turbo Speed (Enable)</span> <span id="val_turboLimit" class="text-indigo-300">200%</span></div>
                                 <input type="range" id="turboLimit" min="1" max="400" value="200" class="w-full" oninput="document.getElementById('val_turboLimit').innerText=this.value+'%'">
                             </div>
-                            <div id="slowLimitRow" class="p-4 space-y-3 transition-opacity">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Slow Speed (Enable)</span> <span id="val_slowLimit">50%</span></div>
+                            <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>Slow Speed (Enable)</span> <span id="val_slowLimit" class="text-indigo-300">50%</span></div>
                                 <input type="range" id="slowLimit" min="1" max="400" value="50" class="w-full" oninput="document.getElementById('val_slowLimit').innerText=this.value+'%'">
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Docked Mode</div>
-                                <select id="dockedMode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Docked Mode</div>
+                                <select id="dockedMode" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0">Off</option><option value="1">On</option>
                                 </select>
                             </div>
@@ -182,29 +201,29 @@
                     </div>
 
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPU</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">CPU Overclock</div>
-                                <select id="cpuOC" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">CPU</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">CPU Overclock</div>
+                                <select id="cpuOC" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-56">
                                     <option value="0">Off</option><option value="1" selected>Boost (1700MHz)</option><option value="2">Fast (2000MHz)</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Synchronize Core Speed</div>
-                                <select id="syncCore" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Synchronize Core Speed</div>
+                                <select id="syncCore" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Memory Layout</div>
-                                <select id="memLayout" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Memory Layout</div>
+                                <select id="memLayout" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-56">
                                     <option value="0" selected>4GB (Recommended)</option><option value="1">6GB (Unsafe)</option><option value="2">8GB (Unsafe)</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Custom CPU Ticks</div>
-                                <select id="cpuTicks" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Custom CPU Ticks</div>
+                                <select id="cpuTicks" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false" selected>Off</option><option value="true">On</option>
                                 </select>
                             </div>
@@ -212,130 +231,110 @@
                     </div>
                 </div>
 
-                <!-- GRAPHICS SECTION -->
-                <div id="section-graphics" class="scroll-mt-8 space-y-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-tv text-emerald-500"></i> Graphics Settings</h2>
+                <div id="section-graphics" class="scroll-mt-8 space-y-5">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center gap-3"><i class="fas fa-tv text-emerald-500 text-2xl drop-shadow-md"></i> Graphics Settings</h2>
                     
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">General</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Resolution (Handheld/Docked)</div>
-                                <select id="resolution" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">General</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Resolution (Handheld/Docked)</div>
+                                <select id="resolution" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0">0.25x</option><option value="1">0.5x</option><option value="2">0.75x</option>
                                     <option value="3" selected>1x</option><option value="4">1.25x</option><option value="5">1.5x</option>
                                     <option value="6">2x</option><option value="7">3x</option><option value="8">4x</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">VSync Mode</div>
-                                <select id="vsync" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">VSync mode</div>
+                                <select id="vsync" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-56">
                                     <option value="0">Immediate (Off)</option><option value="1">Mailbox</option><option value="2" selected>FIFO (On)</option><option value="3">FIFO Relaxed</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Window Adapting Filter</div>
-                                <select id="filter" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="1">Bilinear</option><option value="2">Bicubic</option><option value="7">Gaussian</option><option value="8">Lanczos</option><option value="9">ScaleForce</option><option value="10" selected>AMD Fidelity™ Super Resolution</option><option value="11">Area</option><option value="12">MMPX</option><option value="3">Zero-Tangent</option><option value="4">B-Spline</option><option value="5">Mitchell</option><option value="6">Spline-1</option>
+                            <div class="p-5 flex flex-col md:flex-row md:items-center justify-between hover:bg-white/[0.02] transition-colors gap-3">
+                                <div class="text-sm font-medium text-gray-200">Window adapting filter</div>
+                                <select id="filter" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none md:w-64">
+                                    <option value="0">Bilinear</option><option value="1">Bicubic</option><option value="2">Gaussian</option>
+                                    <option value="3">Lanczos</option><option value="4">ScaleForce</option><option value="5" selected>AMD Fidelity™ Super Resolution</option>
+                                    <option value="6">Area</option><option value="7">MMPX</option><option value="8">Zero-Tangent</option>
+                                    <option value="9">B-Spline</option><option value="10">Mitchell</option><option value="11">Spline-1</option>
                                 </select>
                             </div>
-                            <div id="fsrSharpRow" class="p-4 space-y-3 transition-opacity">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>FSR Sharpness</span> <span id="val_fsrSharp">88%</span></div>
-                                <input type="range" id="fsrSharp" min="0" max="100" value="88" class="w-full" oninput="document.getElementById('val_fsrSharp').innerText=this.value+'%'">
+                            <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>FSR sharpness</span> <span id="val_fsrSharp" class="text-emerald-300">88</span></div>
+                                <input type="range" id="fsrSharp" min="0" max="100" value="88" class="w-full" oninput="document.getElementById('val_fsrSharp').innerText=this.value">
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Anti-aliasing Method</div>
-                                <select id="aa" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Anti-aliasing method</div>
+                                <select id="aa" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0" selected>None</option><option value="1">FXAA</option><option value="2">SMAA</option>
-                                </select>
-                            </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Optimize Spir-V Output</div>
-                                <select id="spirv" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Never</option><option value="1" selected>On Load</option><option value="2">Always</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Advanced</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">GPU Mode</div>
-                                <select id="gpuMode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">Advanced</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">GPU Mode</div>
+                                <select id="gpuMode" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0">Fast</option><option value="1" selected>Balanced</option><option value="2">Accurate</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">DMA Accuracy</div>
-                                <select id="dmaAccuracy" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">DMA Accuracy</div>
+                                <select id="dmaAccuracy" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0" selected>Default</option><option value="1">Unsafe</option><option value="2">Safe</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Anisotropic Filtering</div>
-                                <select id="af" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="auto" selected>Auto</option><option value="default">Default</option><option value="2x">2x</option><option value="4x">4x</option><option value="8x">8x</option><option value="16x">16x</option><option value="32x">32x</option><option value="64x">64x</option><option value="none">None</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Anisotropic filtering</div>
+                                <select id="af" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="0" selected>Auto</option><option value="1">Default</option><option value="2">2x</option>
+                                    <option value="4">4x</option><option value="8">8x</option><option value="16">16x</option>
+                                    <option value="32">32x</option><option value="64">64x</option><option value="99">None</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">VRAM Usage Mode</div>
-                                <select id="vramMode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">VRAM Usage Mode</div>
+                                <select id="vramMode" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-48">
                                     <option value="0" selected>Conservative</option><option value="1">Aggressive</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">ASTC Decoding Method</div>
-                                <select id="astcDecode" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">ASTC Decoding Method</div>
+                                <select id="astcDecode" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-48">
                                     <option value="0">CPU</option><option value="1" selected>GPU</option><option value="2">CPU Async</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Sync Memory Operations</div>
-                                <select id="syncMemoryOps" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Sync Memory Operations</div>
+                                <select id="syncMem" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Disk Shader Cache</div>
-                                <select id="diskShaderCache" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
-                                </select>
-                            </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Force Maximum Clocks (Adreno only)</div>
-                                <select id="forceMaxClock" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Disk shader cache</div>
+                                <select id="diskCache" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">GPU Async Emulation</div>
-                                <select id="gpuAsync" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Force max clocks (Adreno)</div>
+                                <select id="forceClocks" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false" selected>Off</option><option value="true">On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Asynchronous Presentation</div>
-                                <select id="asyncPresentation" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
-                                </select>
-                            </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Use Reactive Flushing</div>
-                                <select id="reactiveFlushing" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Use reactive flushing</div>
+                                <select id="reactiveFlush" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Enable Buffer History</div>
-                                <select id="bufferHistory" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="false">Off</option><option value="true" selected>On</option>
-                                </select>
-                            </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Optimized Vertex Buffers</div>
-                                <select id="vertexBuffers" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Enable buffer history</div>
+                                <select id="bufferHistory" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
@@ -343,177 +342,200 @@
                     </div>
                 </div>
 
-                <!-- HACKS & EXTENSIONS -->
-                <div id="section-hacks" class="scroll-mt-8 space-y-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-flask text-pink-500"></i> Engine Hacks & Extensions</h2>
+                <div id="section-hacks" class="scroll-mt-8 space-y-5">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center gap-3"><i class="fas fa-flask text-pink-500 text-2xl drop-shadow-md"></i> Engine Hacks & Extensions</h2>
+                    
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Graphics Hacks</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Fast GPU Time</div>
-                                <select id="fastGpuTime" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Off</option><option value="1" selected>Medium (256)</option><option value="2">High (512)</option>
+                        <div class="section-header">Hacks</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Fast GPU Time</div>
+                                <select id="fastGpuTime" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-48">
+                                    <option value="0">Off</option><option value="256" selected>Medium (256)</option><option value="512">High (512)</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Skip CPU Inner Invalidation</div>
-                                <select id="skipCpuInv" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Skip CPU Inner Invalidation</div>
+                                <select id="skipCpuInv" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Fix Bloom Effects</div>
-                                <select id="fixBloom" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Fix Bloom Effects</div>
+                                <select id="fixBloom" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Asynchronous Shaders</div>
-                                <select id="asyncShaders" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Emulate BGR565</div>
+                                <select id="bgr565" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false" selected>Off</option><option value="true">On</option>
+                                </select>
+                            </div>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Enable Legacy Rescale Pass</div>
+                                <select id="legacyRescale" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false" selected>Off</option><option value="true">On</option>
+                                </select>
+                            </div>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Use asynchronous shaders</div>
+                                <select id="asyncShaders" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">GPU Unswizzle</div>
-                                <select id="unswizzle" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">GPU async Emulation</div>
+                                <select id="gpuAsyncEmu" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div id="unswizzleRows" class="divide-y divide-gray-800">
-                                <div class="p-4 flex items-center justify-between">
-                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Max Texture Size (Enabled)</div>
-                                    <select id="unswizzleTextureSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                        <option value="16">Very Small (16 MB)</option><option value="32">Small (32 MB)</option><option value="128" selected>Normal (128 MB)</option><option value="256">Large (256 MB)</option><option value="512">Very Large (512 MB)</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Asynchronous presentation</div>
+                                <select id="asyncPresent" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
+                                </select>
+                            </div>
+                            
+                            <div class="p-5 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="text-sm font-medium text-pink-200">GPU Unswizzle Settings</div>
+                                    <select id="unswizzle" class="bg-pink-900/30 border border-pink-700/50 text-pink-100 text-sm rounded-lg p-2 outline-none w-40 focus:ring-pink-500 focus:border-pink-500" onchange="toggleUnswizzleOpts()">
+                                        <option value="false">Off</option><option value="true" selected>On</option>
                                     </select>
                                 </div>
-                                <div class="p-4 flex items-center justify-between">
-                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Stream Size (Enabled)</div>
-                                    <select id="unswizzleStreamSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                        <option value="4">Very Low (4 MB)</option><option value="8">Low (8 MB)</option><option value="16" selected>Normal (16 MB)</option><option value="32">Medium (32 MB)</option><option value="64">High (64 MB)</option>
-                                    </select>
-                                </div>
-                                <div class="p-4 flex items-center justify-between">
-                                    <div class="text-sm font-semibold text-gray-100">GPU Unswizzle Chunk Size (Enabled)</div>
-                                    <select id="unswizzleChunkSize" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                        <option value="32">Very Low (32)</option><option value="64">Low (64)</option><option value="128" selected>Normal (128)</option><option value="256">Medium (256)</option><option value="512">High (512)</option>
-                                    </select>
+                                <div id="unswizzleOpts" class="sub-setting space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-gray-400">Max Texture Size</div>
+                                        <select id="unswizzleMaxTex" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-[11px] rounded p-1.5 outline-none w-40">
+                                            <option value="16">Very Small (16 MB)</option><option value="32">Small (32 MB)</option><option value="128" selected>Normal (128 MB)</option><option value="256">Large (256 MB)</option><option value="512">Very Large (512 MB)</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-gray-400">Stream Size</div>
+                                        <select id="unswizzleStream" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-[11px] rounded p-1.5 outline-none w-40">
+                                            <option value="4">Very Low (4 MB)</option><option value="8">Low (8 MB)</option><option value="16" selected>Normal (16 MB)</option><option value="32">Medium (32 MB)</option><option value="64">High (64 MB)</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-xs text-gray-400">Chunk Size</div>
+                                        <select id="unswizzleChunk" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-[11px] rounded p-1.5 outline-none w-40">
+                                            <option value="32">Very Low (32)</option><option value="64">Low (64)</option><option value="128" selected>Normal (128)</option><option value="256">Medium (256)</option><option value="512">High (512)</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Extensions</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Extended Dynamic State</div>
-                                <select id="extState" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">Extensions</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Extended Dynamic State</div>
+                                <select id="extState" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-56">
                                     <option value="0">Disable</option><option value="1">ExtendedDynamicState 1</option><option value="2">ExtendedDynamicState 2</option><option value="3" selected>ExtendedDynamicState 3</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Vertex Input Dynamic State</div>
-                                <select id="vertexInput" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Vertex Input Dynamic State</div>
+                                <select id="vertexInput" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 space-y-3">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Sample Shading</span> <span id="val_sampleShading">0%</span></div>
+                            <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                                <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>Sample Shading</span> <span id="val_sampleShading" class="text-pink-300">0%</span></div>
                                 <input type="range" id="sampleShading" min="0" max="100" value="0" class="w-full" oninput="document.getElementById('val_sampleShading').innerText=this.value+'%'">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- AUDIO SECTION -->
-                <div id="section-audio" class="scroll-mt-8 space-y-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-volume-high text-cyan-500"></i> Audio Configuration</h2>
+                <div id="section-audio" class="scroll-mt-8 space-y-5">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center gap-3"><i class="fas fa-volume-high text-cyan-500 text-2xl drop-shadow-md"></i> Audio Settings</h2>
                     <div class="section-card">
-                        <div class="p-4 flex items-center justify-between">
-                            <div class="text-sm font-semibold text-gray-100">Output</div>
-                            <select id="audioOutput" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                            <div class="text-sm font-medium text-gray-200">Output</div>
+                            <select id="audioOutput" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                 <option value="auto">Auto</option><option value="oboe" selected>oboe</option><option value="cubeb">cubeb</option><option value="null">Null</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- DEBUG SECTION -->
-                <div id="section-debug" class="scroll-mt-8 space-y-4">
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-bug text-orange-500"></i> Debug Settings</h2>
+                <div id="section-debug" class="scroll-mt-8 space-y-5">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center gap-3"><i class="fas fa-bug text-orange-500 text-2xl drop-shadow-md"></i> Debug Settings</h2>
+                    
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">GPU</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">API</div>
-                                <select id="graphicsApi" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">GPU</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">API</div>
+                                <select id="graphicsApi" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="0" selected>Vulkan</option><option value="1">None</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Disable Buffer Reorder</div>
-                                <select id="disableBufferReorder" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Disable Buffer Reorder</div>
+                                <select id="disableBufferReorder" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
                                     <option value="false" selected>Off</option><option value="true">On</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">CPU</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">CPU Backend</div>
-                                <select id="cpuBackend" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
+                        <div class="section-header">CPU</div>
+                        <div class="divide-y divide-gray-800/50">
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">CPU backend</div>
+                                <select id="cpuBackend" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-48">
                                     <option value="0">Dynarmic (JIT)</option><option value="1" selected>NCE</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">CPU Accuracy</div>
-                                <select id="cpuAccuracy" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="0">Auto</option><option value="1" selected>Accurate</option><option value="2">Unsafe</option><option value="3">Paranoid</option><option value="4">Debugging</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">CPU accuracy</div>
+                                <select id="cpuAccuracy" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="0">Auto</option><option value="1" selected>Accurate</option><option value="2">Unsafe</option>
+                                    <option value="3">Paranoid</option><option value="4">Debugging</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Fastmem</div>
-                                <select id="fastmem" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Fastmem</div>
+                                <select id="fastmem" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Enable Host MMU Emulation</div>
-                                <select id="hostMmu" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="true" selected>On</option><option value="false">Off</option>
+                            <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                                <div class="text-sm font-medium text-gray-200">Enable Host MMU Emulation</div>
+                                <select id="hostMmu" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                    <option value="false">Off</option><option value="true" selected>On</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">Logging</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">None</div>
-                                <span class="text-xs text-gray-500">No extra logging controls</span>
-                            </div>
+                        <div class="section-header">Logging</div>
+                        <div class="p-5 text-sm text-gray-500 italic">None</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">General</div>
+                        <div class="p-5 space-y-4 hover:bg-white/[0.02] transition-colors">
+                            <div class="flex justify-between text-xs font-semibold text-gray-400 tracking-wide"><span>Debug knobs (For development use only)</span> <span id="val_debugKnobs" class="text-orange-300">0</span></div>
+                            <input type="range" id="debugKnobs" min="0" max="65535" value="0" class="w-full" oninput="document.getElementById('val_debugKnobs').innerText=this.value">
                         </div>
                     </div>
+
                     <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">General</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 space-y-3">
-                                <div class="flex justify-between text-xs font-semibold text-gray-400"><span>Debug Knobs</span> <span id="val_debugKnobs">0</span></div>
-                                <input type="range" id="debugKnobs" min="0" max="65535" value="0" class="w-full" oninput="document.getElementById('val_debugKnobs').innerText=this.value">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="section-card">
-                        <div class="section-header text-[10px] font-bold text-gray-400 uppercase tracking-widest">GPU Logging</div>
-                        <div class="divide-y divide-gray-800">
-                            <div class="p-4 flex items-center justify-between">
-                                <div class="text-sm font-semibold text-gray-100">Log Level</div>
-                                <select id="gpuLogLevel" class="bg-gray-900 border border-gray-700 text-xs rounded-lg p-1.5 outline-none">
-                                    <option value="off" selected>Off</option><option value="errors">Errors Only</option><option value="standard">Standard</option><option value="verbose">Verbose</option><option value="all">All</option>
-                                </select>
-                            </div>
+                        <div class="section-header">GPU Logging</div>
+                        <div class="p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                            <div class="text-sm font-medium text-gray-200">Log Level</div>
+                            <select id="gpuLogLevel" class="bg-[#1f2937]/80 border border-gray-600/50 text-gray-200 text-sm rounded-lg p-2 outline-none w-40">
+                                <option value="0" selected>Off</option><option value="1">Errors Only</option><option value="2">Standard</option>
+                                <option value="3">Verbose</option><option value="4">All</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -521,279 +543,111 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="absolute bottom-0 left-0 right-0 p-4 bg-[#111827]/90 backdrop-blur-md border-t border-gray-800 z-10">
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-[#0a0f18]/90 backdrop-blur-xl border-t border-gray-800/80 z-30 shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
             <div class="max-w-4xl mx-auto flex items-center justify-between">
-                <div id="aiSummary" class="hidden text-xs text-emerald-400 font-medium animate-pulse">
-                    <i class="fas fa-check-circle mr-1"></i> Performance Profile Synced
+                <div id="aiSummary" class="hidden text-sm text-emerald-400 font-semibold animate-pulse flex items-center bg-emerald-900/20 px-3 py-1.5 rounded-lg border border-emerald-500/30">
+                    <i class="fas fa-check-circle mr-2"></i> Profile Synced
                 </div>
-                <button id="saveBtn" class="ml-auto group flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg active:scale-95">
-                    <i class="fas fa-file-export"></i> Export .ini
+                <button id="saveBtn" class="ml-auto group flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold rounded-xl transition-all shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(99,102,241,0.6)] active:scale-95 border border-indigo-400/50">
+                    <i class="fas fa-file-export group-hover:-translate-y-0.5 transition-transform"></i> Export .ini
                 </button>
             </div>
         </div>
     </main>
 
-    <div id="toast" class="fixed top-8 right-8 bg-emerald-600 text-white px-6 py-3 rounded-xl shadow-2xl transform translate-y-[-200%] transition-transform duration-300 z-[100] flex items-center gap-3 font-bold text-sm">
-        <i class="fas fa-circle-check text-lg"></i>
+    <div id="toast" class="fixed top-8 right-8 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-[0_10px_40px_rgba(16,185,129,0.5)] transform translate-y-[-200%] transition-transform duration-300 z-[100] flex items-center gap-3 font-bold text-sm border border-emerald-400/30">
+        <i class="fas fa-circle-check text-xl"></i>
         <span id="toastText">Applied!</span>
     </div>
 
     <script>
-        const optimizeBtn = document.getElementById('optimizeBtn');
-        const boostPerformanceBtn = document.getElementById('boostPerformanceBtn');
+        const aiAnalyzeBtn = document.getElementById('aiAnalyzeBtn');
         const aiResults = document.getElementById('aiResults');
         const aiStatus = document.getElementById('aiStatus');
         const aiChips = document.getElementById('aiChips');
-        const aiSummary = document.getElementById('aiSummary');
         const saveBtn = document.getElementById('saveBtn');
         const toast = document.getElementById('toast');
-
-        const rangeLabels = {
-            perfLimit: { label: 'val_perfLimit', suffix: '%' },
-            turboLimit: { label: 'val_turboLimit', suffix: '%' },
-            slowLimit: { label: 'val_slowLimit', suffix: '%' },
-            fsrSharp: { label: 'val_fsrSharp', suffix: '%' },
-            sampleShading: { label: 'val_sampleShading', suffix: '%' },
-            debugKnobs: { label: 'val_debugKnobs', suffix: '' }
-        };
 
         function scrollToSection(id) {
             const el = document.getElementById('section-' + id);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function getValue(id) {
-            const el = document.getElementById(id);
-            return el ? el.value : '';
+        function toggleUnswizzleOpts() {
+            const state = document.getElementById('unswizzle').value;
+            const container = document.getElementById('unswizzleOpts');
+            if(state === 'true') {
+                container.style.opacity = '1';
+                container.style.pointerEvents = 'auto';
+                container.style.transform = 'translateY(0)';
+            } else {
+                container.style.opacity = '0.3';
+                container.style.pointerEvents = 'none';
+                container.style.transform = 'translateY(-5px)';
+            }
         }
+        toggleUnswizzleOpts(); // init
 
-        function sanitizeIniText(value) {
-            return String(value || '').replace(/[\r\n]+/g, ' ').trim();
-        }
-
-        function boolString(value) {
-            return value ? 'true' : 'false';
-        }
-
-        function updateRangeLabel(id) {
-            const config = rangeLabels[id];
-            const input = document.getElementById(id);
-            const label = document.getElementById(config.label);
-            if (!input || !label) return;
-            label.innerText = `${input.value}${config.suffix}`;
-        }
-
-        function setControlValue(id, value) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.value = String(value);
-            if (rangeLabels[id]) updateRangeLabel(id);
-        }
-
-        function setRowEnabled(rowId, enabled) {
-            const row = document.getElementById(rowId);
-            if (!row) return;
-            row.classList.toggle('opacity-50', !enabled);
-            row.querySelectorAll('input, select').forEach((control) => {
-                control.disabled = !enabled;
-            });
-        }
-
-        function toggleSpeedRows() {
-            const enabled = getValue('limitSpeed') === 'true';
-            ['perfLimitRow', 'turboLimitRow', 'slowLimitRow'].forEach((rowId) => setRowEnabled(rowId, enabled));
-        }
-
-        function toggleFsrRow() {
-            const enabled = getValue('filter') === '10';
-            setRowEnabled('fsrSharpRow', enabled);
-        }
-
-        function toggleUnswizzleRows() {
-            const enabled = getValue('unswizzle') === 'true';
-            const rows = document.getElementById('unswizzleRows');
-            if (!rows) return;
-            rows.classList.toggle('hidden', !enabled);
-            rows.querySelectorAll('select').forEach((control) => {
-                control.disabled = !enabled;
-            });
-        }
-
-        function syncConditionalRows() {
-            toggleSpeedRows();
-            toggleFsrRow();
-            toggleUnswizzleRows();
-        }
-
-        function getSelectedText(id) {
-            const el = document.getElementById(id);
-            return el && el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
-        }
-
-        function detectHardwareTier() {
-            const deviceName = getValue('deviceName').toLowerCase();
-            const deviceModel = getValue('deviceModel').toLowerCase();
+        aiAnalyzeBtn.onclick = () => {
+            const deviceName = document.getElementById('deviceName').value.toLowerCase();
+            const deviceModel = document.getElementById('deviceModel').value.toLowerCase();
+            aiAnalyzeBtn.disabled = true;
+            aiAnalyzeBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Benchmarking...';
+            
             const isHighEnd = deviceName.includes('ultra') || deviceName.includes('s24') || deviceName.includes('s23') || deviceName.includes('fold') || deviceName.includes('iphone 15') || deviceName.includes('snapdragon 8 gen 3') || deviceModel.includes('s928');
             const isMidEnd = deviceName.includes('pixel') || deviceName.includes('s22') || deviceName.includes('s21') || deviceName.includes('snapdragon 8 gen 1');
-            if (isHighEnd) return 'elite';
-            if (isMidEnd) return 'balanced';
-            return 'safe';
-        }
-
-        function tierLabel(tier) {
-            return tier === 'elite' ? 'Elite' : tier === 'balanced' ? 'Balanced' : 'Safe';
-        }
-
-        function buildPreset(mode, tier) {
-            const baseSettings = {
-                limitSpeed: 'true',
-                perfLimit: '100',
-                turboLimit: '200',
-                slowLimit: '50',
-                dockedMode: '0',
-                cpuOC: '1',
-                syncCore: 'true',
-                memLayout: '0',
-                cpuTicks: 'false',
-                resolution: '3',
-                vsync: '2',
-                filter: '10',
-                fsrSharp: '88',
-                aa: '0',
-                spirv: '1',
-                gpuMode: '1',
-                dmaAccuracy: '0',
-                af: 'auto',
-                vramMode: '0',
-                astcDecode: '1',
-                syncMemoryOps: 'true',
-                diskShaderCache: 'true',
-                forceMaxClock: 'true',
-                gpuAsync: 'true',
-                asyncPresentation: 'true',
-                reactiveFlushing: 'true',
-                bufferHistory: 'true',
-                vertexBuffers: 'true',
-                fastGpuTime: '1',
-                skipCpuInv: 'true',
-                fixBloom: 'true',
-                asyncShaders: 'true',
-                unswizzle: 'true',
-                unswizzleTextureSize: '128',
-                unswizzleStreamSize: '16',
-                unswizzleChunkSize: '128',
-                extState: '3',
-                vertexInput: 'true',
-                sampleShading: '0',
-                audioOutput: 'oboe',
-                graphicsApi: '0',
-                disableBufferReorder: 'false',
-                cpuBackend: '1',
-                cpuAccuracy: '1',
-                fastmem: 'true',
-                hostMmu: 'true',
-                debugKnobs: '0',
-                gpuLogLevel: 'off'
-            };
-
-            const optimizeProfiles = {
-                elite: { cpuOC: '2', memLayout: '2', resolution: '3', gpuMode: '2', fastGpuTime: '2', forceMaxClock: 'true' },
-                balanced: { cpuOC: '1', memLayout: '1', resolution: '2', gpuMode: '1', fastGpuTime: '1', forceMaxClock: 'true' },
-                safe: { cpuOC: '0', memLayout: '0', resolution: '1', gpuMode: '0', fastGpuTime: '0', forceMaxClock: 'false', reactiveFlushing: 'false' }
-            };
-
-            const boostProfiles = {
-                elite: { cpuOC: '2', memLayout: '2', resolution: '2', vsync: '1', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'default', vramMode: '1', fastGpuTime: '2', reactiveFlushing: 'false' },
-                balanced: { cpuOC: '2', memLayout: '1', resolution: '1', vsync: '0', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'none', vramMode: '1', fastGpuTime: '2', syncMemoryOps: 'false', reactiveFlushing: 'false' },
-                safe: { cpuOC: '1', memLayout: '0', resolution: '0', vsync: '0', filter: '1', fsrSharp: '0', gpuMode: '0', spirv: '2', af: 'none', vramMode: '1', fastGpuTime: '1', syncMemoryOps: 'false', forceMaxClock: 'false', reactiveFlushing: 'false', bufferHistory: 'false' }
-            };
-
-            const profile = mode === 'boost' ? boostProfiles[tier] : optimizeProfiles[tier];
-            return { ...baseSettings, ...profile };
-        }
-
-        function applySettings(settings) {
-            Object.entries(settings).forEach(([id, value]) => setControlValue(id, value));
-            syncConditionalRows();
-        }
-
-        function setPresetButtonsBusy(activeButton, label) {
-            [optimizeBtn, boostPerformanceBtn].forEach((button) => {
-                button.disabled = true;
-                if (!button.dataset.originalHtml) button.dataset.originalHtml = button.innerHTML;
-            });
-            activeButton.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> ${label}`;
-        }
-
-        function resetPresetButtons() {
-            [optimizeBtn, boostPerformanceBtn].forEach((button) => {
-                button.disabled = false;
-                if (button.dataset.originalHtml) {
-                    button.innerHTML = button.dataset.originalHtml;
-                }
-            });
-        }
-
-        function renderPresetSummary(mode, tier) {
-            aiResults.classList.remove('hidden');
-            aiSummary.classList.remove('hidden');
-            aiChips.innerHTML = `
-                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Mode: ${mode === 'boost' ? 'Boost Performance' : 'Optimize'}</div>
-                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Profile: ${tierLabel(tier)}</div>
-                <div class="bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-lg text-[10px] text-emerald-200">Resolution: ${getSelectedText('resolution')}</div>
-            `;
-        }
-
-        function runPreset(mode) {
-            const activeButton = mode === 'boost' ? boostPerformanceBtn : optimizeBtn;
-            const tier = detectHardwareTier();
-            const deviceLabel = sanitizeIniText(getValue('deviceName')) || sanitizeIniText(getValue('deviceModel')) || 'General Hardware';
-            const presetLabel = mode === 'boost' ? 'Boosting...' : 'Optimizing...';
-            const statusMap = {
-                optimize: {
-                    elite: 'High-tier hardware detected. Applying Elite Optimization Profile.',
-                    balanced: 'Mid-tier hardware detected. Applying Balanced Optimization Profile.',
-                    safe: 'Standard hardware detected. Applying Compatibility Optimization Profile.'
-                },
-                boost: {
-                    elite: 'High-tier hardware detected. Applying aggressive performance boost.',
-                    balanced: 'Mid-tier hardware detected. Applying stronger performance boost.',
-                    safe: 'Standard hardware detected. Applying safe boost profile.'
-                }
-            };
-
-            setPresetButtonsBusy(activeButton, presetLabel);
+            
             setTimeout(() => {
-                applySettings(buildPreset(mode, tier));
-                aiStatus.innerText = statusMap[mode][tier];
-                renderPresetSummary(mode, tier);
-                resetPresetButtons();
-                showToast(`${mode === 'boost' ? 'Boosted' : 'Optimized'} for ${deviceLabel}`);
-            }, 900);
-        }
+                aiAnalyzeBtn.disabled = false;
+                aiAnalyzeBtn.innerHTML = 'Tune Applied';
+                aiAnalyzeBtn.classList.replace('bg-emerald-600', 'bg-emerald-700');
+                
+                if (isHighEnd) {
+                    aiStatus.innerText = "High-tier hardware detected. Applying Elite Performance Profile.";
+                    document.getElementById('cpuOC').value = "2";
+                    document.getElementById('memLayout').value = "2";
+                    document.getElementById('resolution').value = "3";
+                    document.getElementById('gpuMode').value = "2";
+                    document.getElementById('fastGpuTime').value = "512";
+                } else if (isMidEnd) {
+                    aiStatus.innerText = "Mid-tier hardware detected. Applying Balanced Profile.";
+                    document.getElementById('cpuOC').value = "1";
+                    document.getElementById('memLayout').value = "1";
+                    document.getElementById('resolution').value = "2";
+                    document.getElementById('gpuMode').value = "1";
+                    document.getElementById('fastGpuTime').value = "256";
+                } else {
+                    aiStatus.innerText = "Standard hardware profile detected. Applying Compatibility Profile.";
+                    document.getElementById('cpuOC').value = "0";
+                    document.getElementById('memLayout').value = "0";
+                    document.getElementById('resolution').value = "1";
+                    document.getElementById('gpuMode').value = "0";
+                    document.getElementById('fastGpuTime').value = "0";
+                }
+                
+                aiResults.classList.remove('hidden');
+                aiChips.innerHTML = `
+                    <div class="bg-[#111827]/50 backdrop-blur-md border border-emerald-500/30 p-2.5 rounded-xl text-xs font-semibold text-emerald-200 text-center shadow-inner">Profile: ${isHighEnd ? 'Elite' : (isMidEnd ? 'Balanced' : 'Safe')}</div>
+                    <div class="bg-[#111827]/50 backdrop-blur-md border border-emerald-500/30 p-2.5 rounded-xl text-xs font-semibold text-emerald-200 text-center shadow-inner">Backend: NCE</div>
+                    <div class="bg-[#111827]/50 backdrop-blur-md border border-emerald-500/30 p-2.5 rounded-xl text-xs font-semibold text-emerald-200 text-center shadow-inner">Resolution Optimized</div>
+                `;
+                document.getElementById('aiSummary').classList.remove('hidden');
+                showToast(`Optimized for ${deviceName || deviceModel || 'General Hardware'}`);
+            }, 1200);
+        };
 
-        optimizeBtn.addEventListener('click', () => runPreset('optimize'));
-        boostPerformanceBtn.addEventListener('click', () => runPreset('boost'));
-
-        saveBtn.addEventListener('click', () => {
+        saveBtn.onclick = () => {
             const original = saveBtn.innerHTML;
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
             setTimeout(() => {
                 generateAndDownloadIni();
                 saveBtn.innerHTML = original;
-                showToast('INI Exported Successfully');
+                showToast("INI Exported Successfully");
             }, 800);
-        });
+        };
 
         function generateAndDownloadIni() {
-            const gameTitle = sanitizeIniText(getValue('gameInput')) || 'Unknown Game';
-            const driverPath = sanitizeIniText(getValue('driverPath'));
-            const cpuOverclock = getValue('cpuOC');
-            const fastGpuTime = getValue('fastGpuTime');
-            const sampleShading = getValue('sampleShading');
-            const fsrSharpness = getValue('filter') === '10' ? getValue('fsrSharp') : '0';
-            const unswizzleEnabled = getValue('unswizzle') === 'true';
+            const gameTitle = document.getElementById('gameInput').value || "Unknown Game";
 
             const iniContent = `[LibraryApplet]
 cabinet_applet_mode\\use_global=true
@@ -817,39 +671,37 @@ motion_enabled\\use_global=true
 
 [Core]
 use_multi_core\\use_global=true
-memory_layout_mode=${getValue('memLayout')}
+memory_layout_mode=${document.getElementById('memLayout').value}
 memory_layout_mode\\use_global=false
-use_speed_limit=${getValue('limitSpeed')}
+use_speed_limit=${document.getElementById('limitSpeed').value}
 use_speed_limit\\use_global=false
-speed_limit=${getValue('perfLimit')}
+speed_limit=${document.getElementById('perfLimit').value}
 speed_limit\\use_global=false
-slow_speed_limit=${getValue('slowLimit')}
+slow_speed_limit=${document.getElementById('slowLimit').value}
 slow_speed_limit\\use_global=false
-turbo_speed_limit=${getValue('turboLimit')}
+turbo_speed_limit=${document.getElementById('turboLimit').value}
 turbo_speed_limit\\use_global=false
-sync_core_speed=${getValue('syncCore')}
+sync_core_speed=${document.getElementById('syncCore').value}
 sync_core_speed\\use_global=false
-debug_knobs=${getValue('debugKnobs')}
+debug_knobs=${document.getElementById('debugKnobs').value}
 debug_knobs\\use_global=false
 
 [Cpu]
-cpu_backend=${getValue('cpuBackend')}
+cpu_backend=${document.getElementById('cpuBackend').value}
 cpu_backend\\use_global=false
-cpu_accuracy=${getValue('cpuAccuracy')}
+cpu_accuracy=${document.getElementById('cpuAccuracy').value}
 cpu_accuracy\\use_global=false
-use_fast_cpu_time=${boolString(cpuOverclock !== '0')}
-use_fast_cpu_time\\use_global=false
-fast_cpu_time=${cpuOverclock}
-fast_cpu_time\\use_global=false
-use_custom_cpu_ticks=${getValue('cpuTicks')}
+cpu_overclock=${document.getElementById('cpuOC').value}
+cpu_overclock\\use_global=false
+fast_cpu_time\\use_global=true
+use_custom_cpu_ticks=${document.getElementById('cpuTicks').value}
 use_custom_cpu_ticks\\use_global=false
 cpu_ticks\\use_global=true
 vtable_bouncing\\use_global=true
-cpuopt_fastmem=${getValue('fastmem')}
+cpuopt_fastmem=${document.getElementById('fastmem').value}
 cpuopt_fastmem\\use_global=false
-cpuopt_fastmem_exclusives=${getValue('fastmem')}
-cpuopt_fastmem_exclusives\\use_global=false
-cpuopt_unsafe_host_mmu=${getValue('hostMmu')}
+cpuopt_fastmem_exclusives\\use_global=true
+cpuopt_unsafe_host_mmu=${document.getElementById('hostMmu').value}
 cpuopt_unsafe_host_mmu\\use_global=false
 cpuopt_unsafe_unfuse_fma\\use_global=true
 cpuopt_unsafe_reduce_fp_error\\use_global=true
@@ -859,91 +711,83 @@ cpuopt_unsafe_fastmem_check\\use_global=true
 cpuopt_unsafe_ignore_global_monitor\\use_global=true
 
 [Renderer]
-backend=${getValue('graphicsApi')}
+backend=${document.getElementById('graphicsApi').value}
 backend\\use_global=false
 vulkan_device\\use_global=true
-resolution_setup=${getValue('resolution')}
+resolution_setup=${document.getElementById('resolution').value}
 resolution_setup\\use_global=false
-use_vsync=${getValue('vsync')}
+use_vsync=${document.getElementById('vsync').value}
 use_vsync\\use_global=false
-scaling_filter=${getValue('filter')}
+scaling_filter=${document.getElementById('filter').value}
 scaling_filter\\use_global=false
-fsr_sharpening_slider=${fsrSharpness}
+fsr_sharpening_slider=${document.getElementById('fsrSharp').value}
 fsr_sharpening_slider\\use_global=false
 aspect_ratio\\use_global=true
-anti_aliasing=${getValue('aa')}
+anti_aliasing=${document.getElementById('aa').value}
 anti_aliasing\\use_global=false
-optimize_spirv_output=${getValue('spirv')}
-optimize_spirv_output\\use_global=false
-use_asynchronous_gpu_emulation=${getValue('gpuAsync')}
+use_asynchronous_gpu_emulation=${document.getElementById('gpuAsyncEmu').value}
 use_asynchronous_gpu_emulation\\use_global=false
 fullscreen_mode\\use_global=true
-bg_red\\use_global=true
-bg_green\\use_global=true
-bg_blue\\use_global=true
-gpu_accuracy=${getValue('gpuMode')}
+gpu_accuracy=${document.getElementById('gpuMode').value}
 gpu_accuracy\\use_global=false
-dma_accuracy=${getValue('dmaAccuracy')}
+dma_accuracy=${document.getElementById('dmaAccuracy').value}
 dma_accuracy\\use_global=false
-vram_usage_mode=${getValue('vramMode')}
+vram_usage_mode=${document.getElementById('vramMode').value}
 vram_usage_mode\\use_global=false
 nvdec_emulation\\use_global=true
-max_anisotropy=${getValue('af')}
+max_anisotropy=${document.getElementById('af').value}
 max_anisotropy\\use_global=false
-accelerate_astc=${getValue('astcDecode')}
+accelerate_astc=${document.getElementById('astcDecode').value}
 accelerate_astc\\use_global=false
-sync_memory_operations=${getValue('syncMemoryOps')}
+sync_memory_operations=${document.getElementById('syncMem').value}
 sync_memory_operations\\use_global=false
-force_max_clock=${getValue('forceMaxClock')}
+force_max_clock=${document.getElementById('forceClocks').value}
 force_max_clock\\use_global=false
-use_disk_shader_cache=${getValue('diskShaderCache')}
+use_disk_shader_cache=${document.getElementById('diskCache').value}
 use_disk_shader_cache\\use_global=false
 use_vulkan_driver_pipeline_cache\\use_global=true
 enable_compute_pipelines\\use_global=true
 use_video_framerate\\use_global=true
-use_reactive_flushing=${getValue('reactiveFlushing')}
+use_reactive_flushing=${document.getElementById('reactiveFlush').value}
 use_reactive_flushing\\use_global=false
-barrier_feedback_loops\\use_global=true
-enable_buffer_history=${getValue('bufferHistory')}
+enable_buffer_history=${document.getElementById('bufferHistory').value}
 enable_buffer_history\\use_global=false
-use_optimized_vertex_buffers=${getValue('vertexBuffers')}
-use_optimized_vertex_buffers\\use_global=false
-use_fast_gpu_time=${boolString(fastGpuTime !== '0')}
-use_fast_gpu_time\\use_global=false
-fast_gpu_time=${fastGpuTime}
+use_optimized_vertex_buffers\\use_global=true
+fast_gpu_time=${document.getElementById('fastGpuTime').value}
 fast_gpu_time\\use_global=false
-skip_cpu_inner_invalidation=${getValue('skipCpuInv')}
+skip_cpu_inner_invalidation=${document.getElementById('skipCpuInv').value}
 skip_cpu_inner_invalidation\\use_global=false
-async_presentation=${getValue('asyncPresentation')}
+async_presentation=${document.getElementById('asyncPresent').value}
 async_presentation\\use_global=false
-fix_bloom_effects=${getValue('fixBloom')}
+fix_bloom_effects=${document.getElementById('fixBloom').value}
 fix_bloom_effects\\use_global=false
-rescale_hack\\use_global=true
-use_asynchronous_shaders=${getValue('asyncShaders')}
+emulate_bgr565=${document.getElementById('bgr565').value}
+emulate_bgr565\\use_global=false
+enable_legacy_rescale_pass=${document.getElementById('legacyRescale').value}
+enable_legacy_rescale_pass\\use_global=false
+use_asynchronous_shaders=${document.getElementById('asyncShaders').value}
 use_asynchronous_shaders\\use_global=false
-gpu_unswizzle_texture_size=${getValue('unswizzleTextureSize')}
-gpu_unswizzle_texture_size\\use_global=${boolString(!unswizzleEnabled)}
-gpu_unswizzle_stream_size=${getValue('unswizzleStreamSize')}
-gpu_unswizzle_stream_size\\use_global=${boolString(!unswizzleEnabled)}
-gpu_unswizzle_chunk_size=${getValue('unswizzleChunkSize')}
-gpu_unswizzle_chunk_size\\use_global=${boolString(!unswizzleEnabled)}
-gpu_unswizzle_enabled=${getValue('unswizzle')}
+gpu_unswizzle_texture_size=${document.getElementById('unswizzleMaxTex').value}
+gpu_unswizzle_texture_size\\use_global=false
+gpu_unswizzle_stream_size=${document.getElementById('unswizzleStream').value}
+gpu_unswizzle_stream_size\\use_global=false
+gpu_unswizzle_chunk_size=${document.getElementById('unswizzleChunk').value}
+gpu_unswizzle_chunk_size\\use_global=false
+gpu_unswizzle_enabled=${document.getElementById('unswizzle').value}
 gpu_unswizzle_enabled\\use_global=false
-dyna_state=${getValue('extState')}
+dyna_state=${document.getElementById('extState').value}
 dyna_state\\use_global=false
-sample_shading=${boolString(Number(sampleShading) > 0)}
-sample_shading\\use_global=false
-sample_shading_fraction=${sampleShading}
+sample_shading_fraction=${document.getElementById('sampleShading').value}
 sample_shading_fraction\\use_global=false
-vertex_input_dynamic_state=${getValue('vertexInput')}
+vertex_input_dynamic_state=${document.getElementById('vertexInput').value}
 vertex_input_dynamic_state\\use_global=false
-provoking_vertex\\use_global=true
-descriptor_indexing\\use_global=true
-disable_buffer_reorder=${getValue('disableBufferReorder')}
+disable_buffer_reorder=${document.getElementById('disableBufferReorder').value}
 disable_buffer_reorder\\use_global=false
+gpu_log_level=${document.getElementById('gpuLogLevel').value}
+gpu_log_level\\use_global=false
 
 [Audio]
-output_engine=${getValue('audioOutput')}
+output_engine=${document.getElementById('audioOutput').value}
 output_engine\\use_global=false
 output_device\\use_global=true
 input_device\\use_global=true
@@ -957,26 +801,19 @@ custom_rtc_enabled\\use_global=true
 custom_rtc_offset\\use_global=true
 rng_seed_enabled\\use_global=true
 rng_seed\\use_global=true
-use_docked_mode=${getValue('dockedMode')}
+use_docked_mode=${document.getElementById('dockedMode').value}
 use_docked_mode\\use_global=false
 sound_index\\use_global=true
 
-[Debug]
-gpu_log_level=${getValue('gpuLogLevel')}
-gpu_log_level\\use_global=false
-
 [GpuDriver]
-driver_path=${driverPath}
-driver_path\\use_global=${boolString(!driverPath)}
+driver_path\\use_global=true
 `;
-
             const blob = new Blob([iniContent], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `eden_tune_${gameTitle.replace(/\s+/g, '_').toLowerCase()}.ini`;
+            a.download = `eden_tune_${gameTitle.replace(/\s+/g, '_').toLowerCase() || 'profile'}.ini`;
             a.click();
-            window.URL.revokeObjectURL(url);
         }
 
         function showToast(msg) {
@@ -984,12 +821,6 @@ driver_path\\use_global=${boolString(!driverPath)}
             toast.classList.remove('translate-y-[-200%]');
             setTimeout(() => toast.classList.add('translate-y-[-200%]'), 3000);
         }
-
-        Object.keys(rangeLabels).forEach((id) => updateRangeLabel(id));
-        document.getElementById('limitSpeed').addEventListener('change', toggleSpeedRows);
-        document.getElementById('filter').addEventListener('change', toggleFsrRow);
-        document.getElementById('unswizzle').addEventListener('change', toggleUnswizzleRows);
-        syncConditionalRows();
 
         document.getElementById('openSidebar').onclick = () => {
             document.getElementById('sidebar').classList.remove('-translate-x-full');
